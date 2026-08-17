@@ -1,0 +1,55 @@
+generated: '2026-08-17'
+method: probed
+source: https://heuritech.com/.well-known/oauth-authorization-server
+docs: null
+description: >-
+  Heuritech's only public OAuth surface is the authorization server advertised on heuritech.com for its
+  remote MCP server. It declares a single coarse scope, `mcp`. There is no published scope or permission
+  reference in any Heuritech documentation, and no Heuritech host publishes an OIDC discovery document.
+  The commercial Heuritech Trend Data API publishes no authentication model at all, so it contributes no
+  scopes; the WordPress REST content surface uses Application Passwords rather than OAuth.
+schemes:
+- name: HeuritechMCPOAuth
+  type: oauth2
+  source: https://heuritech.com/.well-known/oauth-authorization-server
+  issuer: https://heuritech.com
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://heuritech.com/oauth/authorize
+    tokenUrl: https://heuritech.com/oauth/token
+    revocationUrl: https://heuritech.com/oauth/revoke
+    pkce: required
+    code_challenge_methods: [S256]
+    refresh_tokens: true
+    client_authentication: none (public client)
+    dynamic_client_registration: >-
+      No RFC 7591 registration_endpoint is advertised. The server sets
+      client_id_metadata_document_supported: true, so clients identify themselves with a client-ID
+      metadata document URL rather than pre-registering.
+scopes:
+- scope: mcp
+  description: >-
+    Access the Heuritech MCP server at https://heuritech.com/wp-json/mcp/mcp-oauth-server. Coarse,
+    single-scope model — the authorization server advertises no finer-grained read/write split, so the
+    scope grants whatever the authenticated WordPress user is permitted to do.
+  flows: [authorizationCode]
+  sources: [https://heuritech.com/.well-known/oauth-authorization-server]
+  protected_resource: https://heuritech.com/wp-json/mcp/mcp-oauth-server
+not_applicable:
+- surface: Heuritech Trend Data API
+  reason: >-
+    Sales-gated. Heuritech publishes no authentication documentation, no OAuth metadata and no
+    specification for the commercial API, so there is no scope surface to record.
+- surface: WordPress REST content API (wp/v2)
+  reason: >-
+    Anonymous for reads; writes use WordPress Application Passwords over HTTP Basic, authorized at
+    https://heuritech.com/wp-admin/authorize-application.php. Not an OAuth surface, so no scopes.
+x-evidence:
+  fetched: '2026-08-17'
+  probes:
+  - url: https://heuritech.com/.well-known/oauth-authorization-server/
+    status: 200
+  - url: https://heuritech.com/.well-known/oauth-protected-resource/
+    status: 200
+  - url: https://heuritech.com/.well-known/openid-configuration
+    status: 404

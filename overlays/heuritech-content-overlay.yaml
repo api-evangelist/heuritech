@@ -1,0 +1,48 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Heuritech content API
+  version: 1.0.0
+extends: openapi/heuritech-posts-api-openapi.yml
+x-generated: '2026-08-17'
+x-method: generated
+x-source: >-
+  API Evangelist enrichment pipeline. Applies equally to every openapi/heuritech-*-api-openapi.yml in
+  this repo; `extends` names the posts document because Overlay 1.0.0 takes a single target.
+x-note: >-
+  The underlying OpenAPI documents are themselves API Evangelist derivations of the live WordPress
+  route index at https://heuritech.com/wp-json/. This overlay records the annotations the pipeline adds
+  on top of that derivation — provenance, the runtime pagination and error contracts observed on live
+  responses, and the explicit statement that this is the content estate and not the Heuritech product
+  API — without mutating the derived documents.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profile: https://apis.io/provider/heuritech
+    x-apievangelist-derived: true
+    x-apievangelist-provider-published: false
+    x-apievangelist-surface: content-estate
+    x-apievangelist-not-product-api: >-
+      This describes the heuritech.com WordPress content API. The commercial Heuritech Trend Data API
+      is a separate, sales-gated product with no published specification.
+- target: $.info
+  update:
+    x-conventions: conventions/heuritech-conventions.yml
+    x-error-catalog: errors/heuritech-problem-types.yml
+    x-data-model: data-model/heuritech-data-model.yml
+    x-authentication: authentication/heuritech-authentication.yml
+    x-rate-limits: rate-limits/heuritech-rate-limits.yml
+- target: $.servers[0]
+  update:
+    x-verified: '2026-08-17'
+    x-verified-status: 200
+- target: $.paths.*.get
+  update:
+    x-pagination:
+      style: page-number
+      params: [page, per_page, offset]
+      response_headers: [X-WP-Total, X-WP-TotalPages]
+      link_header: 'rel="next" / rel="prev"'
+    x-error-envelope: wordpress-rest
+    x-idempotent: true
+    x-idempotency-key: false
+    x-auth-required: false

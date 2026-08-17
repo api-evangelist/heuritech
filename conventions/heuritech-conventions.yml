@@ -1,0 +1,116 @@
+generated: '2026-08-17'
+method: derived
+source: >-
+  openapi/heuritech-*-api-openapi.yml (derived from https://heuritech.com/wp-json/) plus live response
+  headers observed on https://heuritech.com/wp-json/wp/v2/posts
+scope: >-
+  These conventions describe the WordPress REST content API on heuritech.com — the only Heuritech
+  request/response surface a member of the public can observe. They do NOT describe the commercial
+  Heuritech Trend Data API, which publishes no conventions of any kind.
+authentication:
+  style: none for reads; HTTP Basic (WordPress Application Passwords) for writes; OAuth 2.1 + PKCE for MCP
+  detail: authentication/heuritech-authentication.yml
+idempotency:
+  supported: false
+  note: >-
+    No Idempotency-Key header, parameter or retry-safety contract is documented or present anywhere on
+    the Heuritech estate. Reads are naturally idempotent by HTTP method, but that is not an idempotency
+    contract and no `Idempotency` pointer is emitted for this provider.
+pagination:
+  style: page-number
+  params:
+  - name: page
+    default: 1
+    minimum: 1
+  - name: per_page
+    default: 10
+    minimum: 1
+    maximum: 100
+  - name: offset
+    note: absolute offset, overrides page
+  response_headers:
+  - X-WP-Total
+  - X-WP-TotalPages
+  link_header: 'RFC 8288 Link header with rel="next" / rel="prev"'
+  observed:
+    url: https://heuritech.com/wp-json/wp/v2/posts?per_page=2
+    x_wp_total: 169
+    x_wp_totalpages: 85
+    link: '<https://heuritech.com/wp-json/wp/v2/posts?per_page=2&page=2>; rel="next"'
+  cors: >-
+    Access-Control-Expose-Headers advertises X-WP-Total, X-WP-TotalPages and Link, so a browser client
+    can read the pagination signal.
+filtering_and_sorting:
+  search: '`search` plus `search_columns` and `search_semantics`'
+  ordering: '`order` (asc|desc) and `orderby` (date, id, title, slug, relevance, modified, …)'
+  date_windows: after, before, modified_after, modified_before (ISO 8601)
+  set_membership: include, exclude, slug, status, categories, tags (+ *_exclude variants)
+field_shaping:
+  context: '`context` = view | embed | edit — selects which field set is returned'
+  embedding: '`_embed` / `_fields` are WordPress core query modifiers available on every collection'
+  note: >-
+    `context=edit` requires authentication; anonymous callers get view/embed field sets only.
+metadata:
+  supported: true
+  note: WordPress `meta` object is exposed per resource where registered.
+request_tracing:
+  request_id_header: null
+  note: >-
+    No request-id or correlation header is returned. The only per-request diagnostic header is
+    `x-ac` (the WordPress.com Atomic CDN cache status, e.g. "29.jfk _atomic_dca MISS"), which is
+    infrastructure telemetry, not a trace identifier.
+versioning:
+  scheme: uri-path
+  current: wp/v2
+  namespaces_registered: 24
+  note: >-
+    Version lives in the URI namespace (/wp-json/wp/v2). Heuritech does not control this version — it
+    tracks the WordPress core release the hosting platform runs. See lifecycle/heuritech-lifecycle.yml.
+error_envelope:
+  format: wordpress-rest
+  rfc9457: false
+  content_type: application/json
+  shape:
+    code: machine-readable string, e.g. rest_post_invalid_id
+    message: human-readable string
+    data:
+      status: HTTP status integer
+      params: per-parameter message map (validation errors only)
+      details: per-parameter {code, message} map (validation errors only)
+  observed:
+  - request: GET /wp/v2/posts/999999
+    status: 404
+    body: '{"code":"rest_post_invalid_id","message":"Invalid post ID.","data":{"status":404}}'
+  - request: GET /wp/v2/posts?per_page=999
+    status: 400
+    body_code: rest_invalid_param
+  detail: errors/heuritech-problem-types.yml
+rate_limiting:
+  documented: false
+  response_headers: []
+  note: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After header was observed on any anonymous response, and no
+    limits are documented. See rate-limits/heuritech-rate-limits.yml.
+caching:
+  cdn: 'WordPress.com Atomic (`x-ac` header, `server: nginx`)'
+  cache_control: not set on JSON responses
+  note: >-
+    Responses are served through a shared CDN. A cached response for one Atomic-hosted site was
+    observed being served in place of another during this pass, so consumers should verify the
+    identity fields (`name`, `home`) in /wp-json/ before trusting a route index.
+allow_header: 'GET only on anonymous collection responses (Allow: GET)'
+cross_links:
+  errors: errors/heuritech-problem-types.yml
+  lifecycle: lifecycle/heuritech-lifecycle.yml
+  authentication: authentication/heuritech-authentication.yml
+  rate_limits: rate-limits/heuritech-rate-limits.yml
+  data_model: data-model/heuritech-data-model.yml
+x-evidence:
+  fetched: '2026-08-17'
+  probes:
+  - url: https://heuritech.com/wp-json/wp/v2/posts?per_page=2
+    status: 200
+  - url: https://heuritech.com/wp-json/wp/v2/posts/999999
+    status: 404
+  - url: https://heuritech.com/wp-json/wp/v2/posts?per_page=999
+    status: 400

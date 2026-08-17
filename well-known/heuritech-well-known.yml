@@ -1,0 +1,122 @@
+generated: '2026-08-17'
+method: searched
+source: probed /.well-known/* on every Heuritech host in apis.yml
+description: >-
+  Well-known discovery surface probed across every Heuritech host. The one real find is on
+  heuritech.com, which publishes BOTH RFC 8414 OAuth authorization-server metadata and RFC 9728
+  OAuth protected-resource metadata pointing at a remote MCP server at
+  https://heuritech.com/wp-json/mcp/mcp-oauth-server. Both documents are emitted by the
+  WordPress.com Atomic platform the site runs on, not hand-authored by Heuritech, but both are
+  served from the company's own host and both are live and correct. No security.txt (RFC 9116),
+  no api-catalog (RFC 9727), no OIDC discovery document, no ai-plugin.json and no A2A agent card
+  were found on any host.
+hosts:
+- host: https://heuritech.com
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: heuritech-oauth-authorization-server.json
+    note: >-
+      RFC 8414 — issuer https://heuritech.com, single scope `mcp`, authorization-code + refresh_token,
+      PKCE S256 required, public clients (token_endpoint_auth_methods_supported: none), client-ID
+      metadata documents supported. Served at the trailing-slash form; the bare path 301s to it.
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: heuritech-oauth-protected-resource.json
+    note: >-
+      RFC 9728 — resource https://heuritech.com/wp-json/mcp/mcp-oauth-server, bearer token in header,
+      scope `mcp`. This is the document the MCP endpoint's 401 WWW-Authenticate challenge points at.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://api.heuritech.com
+  note: >-
+    Resolves and returns HTTP 200 at the root with the customer web application's HTML shell
+    (base href https://www.heuritech.com), but every /.well-known/* and spec path underneath it
+    returns an nginx 404.
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://market-trends.heuritech.com
+  note: >-
+    Single-page-app catch-all. Every path — /.well-known/*, /openapi.json, /graphql, /mcp — returns
+    HTTP 200 with the identical 2,153-byte React index.html, so no 200 on this host is evidence of a
+    published document. All rejected as html-spa-catchall.
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    accepted: false
+    reason: html-spa-catchall
+  - path: /.well-known/agent.json
+    status: 200
+    accepted: false
+    reason: html-spa-catchall
+  - path: /.well-known/security.txt
+    status: 200
+    accepted: false
+    reason: html-spa-catchall
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    accepted: false
+    reason: html-spa-catchall
+- host: https://docs.heuritech.com
+  note: Host does not exist — HTTP 404 on every path, no docs site is published.
+  documents:
+  - path: /
+    status: 404
+- host: https://developer.heuritech.com
+  note: Host does not exist — HTTP 404 on every path, no developer portal is published.
+  documents:
+  - path: /
+    status: 404
+security_txt:
+  present: false
+  note: >-
+    No RFC 9116 security.txt on any Heuritech host, and no vulnerability-disclosure or bug-bounty
+    page was found. The only published contact addresses are contact@heuritech.com,
+    info@heuritech.com and press@heuritech.com.
+agent_card:
+  present: false
+  note: >-
+    Probed /.well-known/agent-card.json and the legacy /.well-known/agent.json on all four hosts.
+    heuritech.com and api.heuritech.com return 404; market-trends.heuritech.com returns the SPA
+    shell for every path and is rejected. No a2a/ artifact is written — an agent card is a claim
+    the provider serves the document, and none does.
+x-evidence:
+  fetched: '2026-08-17'
+  probes:
+  - url: https://heuritech.com/.well-known/oauth-authorization-server/
+    status: 200
+  - url: https://heuritech.com/.well-known/oauth-protected-resource/
+    status: 200
+  - url: https://heuritech.com/.well-known/security.txt
+    status: 404
+  - url: https://heuritech.com/.well-known/agent-card.json
+    status: 404
+  - url: https://api.heuritech.com/.well-known/agent-card.json
+    status: 404
+  - url: https://market-trends.heuritech.com/.well-known/agent-card.json
+    status: 200

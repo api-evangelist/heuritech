@@ -1,0 +1,92 @@
+generated: '2026-08-17'
+method: searched
+source: npm, PyPI, RubyGems, crates.io and the github.com/heuritech organization
+package_count: 0
+official_package_count: 0
+description: >-
+  Heuritech publishes no client SDK in any public package registry. Every registry that answers
+  unauthenticated was searched, and the company's GitHub organization was enumerated. The seven public
+  repositories there are internal engineering tooling (Dagger CI modules, a GitLab-to-Slack notifier,
+  a Prometheus metrics pusher) — none is a client library for the Heuritech trend data API, and none
+  is published to a language package registry. This is consistent with a sales-gated product API that
+  has no public developer surface at all.
+packages: []
+registry_searches:
+- registry: npm
+  query: heuritech
+  url: https://registry.npmjs.org/-/v1/search?text=heuritech
+  results: 0
+  status: 200
+- registry: pypi
+  query: heuritech
+  url: https://pypi.org/pypi/heuritech/json
+  results: 0
+  status: 404
+- registry: rubygems
+  query: heuritech
+  url: https://rubygems.org/api/v1/gems/heuritech.json
+  results: 0
+  status: 404
+- registry: crates.io
+  query: heuritech
+  url: https://crates.io/api/v1/crates?q=heuritech
+  results: 0
+  status: 200
+source_repositories:
+  organization: https://github.com/heuritech
+  org_created: '2015-07-25'
+  public_repos: 7
+  note: >-
+    Enumerated via https://api.github.com/users/heuritech/repos. Listed for provenance only — none of
+    these is an SDK, none is registry-published, and no `SDKs` pointer is emitted for this provider.
+  repositories:
+  - name: daggerverse
+    language: Python
+    description: dagger public modules
+    last_push: '2026-04-16'
+    version: null
+    version_note: >-
+      Dagger modules are consumed by git reference from the Daggerverse, which exposes no registry
+      metadata endpoint to read a published version from.
+  - name: qt-daggerverse
+    language: null
+    description: Daggerverse modules made by Quartz
+    last_push: '2025-09-30'
+    version: null
+  - name: clank
+    language: null
+    description: null
+    last_push: '2025-10-09'
+    version: null
+  - name: poc_feature
+    language: null
+    description: null
+    last_push: '2025-02-28'
+    version: null
+  - name: gha
+    language: Go
+    description: Generate Github Actions configurations from Dagger pipelines
+    last_push: '2024-11-04'
+    version: null
+    version_note: Go module, but never tagged or published to proxy.golang.org.
+  - name: gitlab-slack-notifier
+    language: Python
+    description: Webservice that notifies users on Slack when a change in GitLab concern them.
+    last_push: '2022-01-18'
+    version: null
+  - name: pusher
+    language: Python
+    description: metrics scripts for prometheus with labels
+    last_push: '2018-09-25'
+    version: null
+x-evidence:
+  fetched: '2026-08-17'
+  probes:
+  - url: https://registry.npmjs.org/-/v1/search?text=heuritech
+    status: 200
+  - url: https://pypi.org/pypi/heuritech/json
+    status: 404
+  - url: https://rubygems.org/api/v1/gems/heuritech.json
+    status: 404
+  - url: https://api.github.com/users/heuritech/repos
+    status: 200

@@ -1,0 +1,80 @@
+generated: '2026-08-17'
+method: searched
+source: >-
+  https://heuritech.com/terms-conditions/, https://heuritech.com/privacy-policy/,
+  https://heuritech.com/wp-json/ and live host probes
+description: >-
+  Heuritech publishes no API lifecycle policy of any kind — no versioning policy, no deprecation
+  policy, no status page, no SLA and no changelog. The only versioning signal on the estate is the
+  WordPress REST namespace version, which Heuritech does not control. This artifact records those
+  absences with the probes that established them.
+versioning:
+  scheme: uri-path
+  current: wp/v2
+  docs: null
+  provider_controlled: false
+  note: >-
+    /wp-json/wp/v2 is the WordPress core REST namespace version, set by the WordPress release the
+    hosting platform runs, not by Heuritech. The commercial Trend Data API publishes no version scheme.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    No Deprecation or Sunset header (RFC 8594) was observed on any response, and no deprecation policy
+    page exists. No operation in any derived OpenAPI carries deprecated: true.
+deprecated_operations: []
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    The Terms & Conditions (last updated 31 July 2024) explicitly disclaim an availability commitment:
+    the publisher "implements technical solutions to allow access 24/7" but reserves the right to
+    "suspend, limit or interrupt access" for updates or maintenance without notice. That is a
+    best-effort statement, not an SLA, and it covers the website rather than the product API.
+status_page:
+  url: null
+  probes:
+  - url: https://status.heuritech.com/
+    status: 404
+  - url: https://heuritech.com/status/
+    status: 404
+  note: No status page exists on any Heuritech host.
+changelog:
+  url: null
+  probes:
+  - url: https://heuritech.com/changelog/
+    status: 404
+  note: >-
+    No dated changelog or release-notes page. Product announcements appear as press releases
+    (https://heuritech.com/press/) and blog posts, which are unversioned editorial content, so no
+    changelog/ artifact is written.
+support:
+  channels:
+  - contact@heuritech.com
+  - info@heuritech.com
+  - press@heuritech.com
+  tiered_by_plan: >-
+    Email technical support on Essential, phone technical support on Business, dedicated account
+    manager on Enterprise (per https://heuritech.com/pricing/). No public help centre, forum or
+    ticketing portal.
+corporate:
+  legal_entity: Heuritech SAS
+  registration: RCS Paris B 794 196 055
+  registered_address: 66 avenue des Champs-Élysées, 75008 Paris, France
+  operating_address: 227 rue Saint-Denis, 75002 Paris, France
+  founded: 2013
+  parent: >-
+    Luxurynsight — acquired Heuritech in December 2024; Heuritech continues to operate its own brand,
+    site and product under https://heuritech.com/luxurynsight-group/.
+x-evidence:
+  fetched: '2026-08-17'
+  probes:
+  - url: https://heuritech.com/terms-conditions/
+    status: 200
+  - url: https://heuritech.com/pricing/
+    status: 200
+  - url: https://status.heuritech.com/
+    status: 404
+  - url: https://heuritech.com/changelog/
+    status: 404

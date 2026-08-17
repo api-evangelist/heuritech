@@ -1,0 +1,75 @@
+generated: '2026-08-17'
+method: searched
+source: https://heuritech.com/pricing/
+description: >-
+  Heuritech publishes a three-tier annual pricing page with starting prices on two of the three tiers —
+  unusual for a sales-led fashion-data vendor. API access is a plan feature, not a separate product:
+  it appears only on Business and above. Quotas are expressed as content scope (categories and
+  geographies) and service level (onboarding cadence, support channel), not as request volume.
+currency: EUR
+billing_period: annual
+plan_count: 3
+plans:
+- name: Essential
+  price: 12000
+  price_display: Starting from 12k€/year
+  currency: EUR
+  billing_period: annual
+  audience: Small-sized brands & designers
+  api_access: false
+  included:
+  - Platform access only (no API)
+  - 1 onboarding session at contract start
+  - Up to 1 onboarding session per quarter thereafter
+  - Dedicated customer success manager
+  - Email technical support
+  - Standard reports
+- name: Business
+  price: 35000
+  price_display: Starting from 35k€/year
+  currency: EUR
+  billing_period: annual
+  audience: Medium-sized brands, retailers & manufacturers
+  api_access: true
+  included:
+  - Platform access and/or API
+  - 1 onboarding session per team at contract start
+  - Up to 1 onboarding session per month thereafter
+  - Dedicated customer success manager
+  - Phone technical support
+  - Bespoke tailor-made reports & on-demand projects
+  add_ons:
+    categories: [Women clothing, Men clothing, Women shoes, Men shoes]
+    geographies: [Europe, France, UK, US, Middle East, India, China, South Korea, Japan, Brazil, Southeast
+        Asia]
+- name: Enterprise
+  price: null
+  price_display: Contact sales
+  currency: EUR
+  billing_period: annual
+  audience: Large apparel brands, manufacturers & retailers
+  api_access: true
+  included:
+  - Platform access and/or API, customised to specific needs
+  - Brand and iconic bag/shoe tracking add-ons
+  - 1 onboarding session per team at contract start
+  - Up to 1 onboarding session per month thereafter
+  - Dedicated customer success manager
+  - Full support with a dedicated account manager
+  - Bespoke reports & on-demand projects
+overage:
+  documented: false
+  note: No overage, metering or per-call pricing is published; contracts are annual subscriptions.
+self_service:
+  available: false
+  note: >-
+    There is no sign-up, no free tier, no trial and no self-service checkout. Every tier begins with a
+    demo request at https://heuritech.com/get-a-demo/. The FAQ restates this: "Prices start at a few
+    thousand euros per month" depending on access level, with a sales conversation to size it.
+x-evidence:
+  fetched: '2026-08-17'
+  probes:
+  - url: https://heuritech.com/pricing/
+    status: 200
+  - url: https://heuritech.com/faq/
+    status: 200

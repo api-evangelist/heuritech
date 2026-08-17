@@ -1,0 +1,30 @@
+generated: '2026-08-17'
+method: generated
+source: >-
+  openapi/heuritech-*-api-openapi.yml (derived from https://heuritech.com/wp-json/) plus
+  conventions/heuritech-conventions.yml and errors/heuritech-problem-types.yml
+scope: >-
+  These skills operate the Heuritech PUBLIC CONTENT API only. There is no skill for the commercial
+  Heuritech Trend Data API and there will not be one until Heuritech publishes a contract for it —
+  every step below is grounded in an operationId that exists verbatim in this repo's specs.
+skills:
+- file: heuritech-read-trend-editorial.md
+  name: Read the Heuritech trend editorial
+  description: >-
+    Pull Heuritech's published fashion-trend analysis by category, date window or search term, with
+    author attribution and imagery.
+  api: openapi/heuritech-posts-api-openapi.yml
+  operations: [getCategories, getPosts, getPostsId, getUsersId, getMediaId]
+- file: heuritech-search-the-estate.md
+  name: Search the Heuritech estate
+  description: >-
+    Find any post or page on heuritech.com by keyword and resolve each hit to its full resource.
+  api: openapi/heuritech-search-api-openapi.yml
+  operations: [getSearch, getPostsId, getPagesId]
+- file: heuritech-harvest-product-and-pricing-pages.md
+  name: Harvest the Heuritech product and pricing pages
+  description: >-
+    Read the platform, pricing, FAQ and legal pages as structured JSON instead of scraping rendered
+    HTML — the correct way to answer "what does Heuritech sell and what does it cost".
+  api: openapi/heuritech-pages-api-openapi.yml
+  operations: [getPages, getPagesId, getMediaId]

@@ -1,0 +1,52 @@
+generated: '2026-08-17'
+method: probed
+source: live response headers on https://heuritech.com/wp-json/wp/v2/posts
+limit_count: 0
+description: >-
+  Heuritech publishes no rate limits for any surface, and none are signalled at runtime. This is a
+  recorded zero, not an unchecked field: the public content API was called anonymously and every
+  response header was inspected for a rate-limit signal.
+observed_headers:
+  ratelimit_standard: []
+  x_ratelimit: []
+  retry_after: false
+  present_headers:
+  - x-wp-total
+  - x-wp-totalpages
+  - link
+  - allow
+  - access-control-expose-headers
+  - x-ac
+  note: >-
+    The only volume-shaping control on the public content API is the per_page ceiling of 100 items,
+    enforced with HTTP 400 rest_invalid_param rather than 429.
+limits: []
+exhaustion:
+  status_code: null
+  note: No 429 was observed and none is declared in any route descriptor.
+by_surface:
+- surface: WordPress REST content API (wp/v2)
+  scope: unmetered as far as any published or emitted signal shows
+  documented: false
+  probed: true
+- surface: Heuritech MCP server
+  scope: unknown
+  documented: false
+  probed: partial
+  note: Anonymous calls are rejected at 401 before any quota could be exercised.
+- surface: Heuritech Trend Data API
+  scope: unknown
+  documented: false
+  probed: false
+  note: >-
+    Sales-gated. Heuritech publishes no developer documentation for the commercial API, so no request
+    quota, burst allowance or throttling header can be recorded. The published quotas on that product
+    are contractual scope (categories and geographies per plan — see plans/heuritech-plans-pricing.yml)
+    rather than request-rate limits.
+x-evidence:
+  fetched: '2026-08-17'
+  probes:
+  - url: https://heuritech.com/wp-json/wp/v2/posts?per_page=2
+    status: 200
+  - url: https://heuritech.com/wp-json/wp/v2/posts?per_page=999
+    status: 400

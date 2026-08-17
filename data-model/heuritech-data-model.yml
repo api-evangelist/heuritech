@@ -1,0 +1,167 @@
+generated: '2026-08-17'
+method: derived
+source: >-
+  openapi/heuritech-*-api-openapi.yml plus live representative responses from
+  https://heuritech.com/wp-json/wp/v2 (one item per collection, inspected for id-reference fields)
+description: >-
+  The entity-relationship graph of the Heuritech public content estate as served by the WordPress REST
+  API. Relationships were derived from the id-reference fields present in live responses, not assumed
+  from the WordPress schema. The commercial Heuritech trend data model — attributes, trends, markets,
+  geographies, forecast series — is NOT represented here: Heuritech publishes no schema, no object
+  reference and no sample payload for it, and inventing one would be fabrication.
+id_scheme:
+  style: integer
+  prefixes: []
+  note: Every entity is keyed by a bare integer WordPress post/term/user ID. No prefixed or opaque IDs.
+entities:
+- name: Post
+  collection: /wp/v2/posts
+  count: 169
+  description: A Heuritech blog article on fashion trend forecasting, AI, consumer insight or retail data.
+  key_fields: [id, slug, title, excerpt, content, date, modified, status, author, categories, tags, featured_media]
+  relationships:
+  - type: belongs_to
+    target: User
+    via: author
+  - type: has_many
+    target: Category
+    via: categories
+  - type: has_many
+    target: Tag
+    via: tags
+  - type: has_one
+    target: Media
+    via: featured_media
+  - type: has_many
+    target: Comment
+    via: comment.post (inverse)
+- name: Page
+  collection: /wp/v2/pages
+  count: 63
+  description: A marketing, product, pricing, FAQ or legal page on heuritech.com.
+  key_fields: [id, slug, title, content, parent, menu_order, author, featured_media, template]
+  relationships:
+  - type: belongs_to
+    target: Page
+    via: parent
+    note: Self-referential hierarchy; 0 means top level.
+  - type: belongs_to
+    target: User
+    via: author
+  - type: has_one
+    target: Media
+    via: featured_media
+- name: Media
+  collection: /wp/v2/media
+  count: 3800
+  description: >-
+    A media-library attachment — trend imagery, report cover, chart or downloadable asset — with
+    renditions in media_details.sizes and a canonical source_url.
+  key_fields: [id, slug, title, alt_text, caption, mime_type, media_type, source_url, media_details,
+    filesize, post, author]
+  relationships:
+  - type: belongs_to
+    target: Post
+    via: post
+    note: The post or page this attachment was uploaded to; null for library-only assets.
+  - type: belongs_to
+    target: User
+    via: author
+- name: Comment
+  collection: /wp/v2/comments
+  count: 1284
+  description: A reader comment on a Heuritech blog post.
+  key_fields: [id, post, parent, author, author_name, author_url, content, date, status, type]
+  relationships:
+  - type: belongs_to
+    target: Post
+    via: post
+  - type: belongs_to
+    target: Comment
+    via: parent
+    note: Self-referential threading; 0 means top-level.
+  - type: belongs_to
+    target: User
+    via: author
+    note: 0 for anonymous commenters, who carry author_name/author_url instead.
+- name: Category
+  collection: /wp/v2/categories
+  count: 5
+  description: The editorial taxonomy Heuritech classifies its blog content with.
+  key_fields: [id, slug, name, description, count, parent]
+  known_terms:
+  - {id: 76, slug: articles, count: 169}
+  - {id: 53, slug: industry-insights, count: 103}
+  - {id: 52, slug: consumer-insights, count: 66}
+  - {id: 51, slug: fashion-tech, count: 47}
+  - {id: 64, slug: company-analysis, count: 30}
+  relationships:
+  - type: has_many
+    target: Post
+    via: post.categories (inverse)
+  - type: belongs_to
+    target: Category
+    via: parent
+- name: Tag
+  collection: /wp/v2/tags
+  count: 0
+  description: The WordPress tag taxonomy. Registered and readable, but Heuritech has created no terms.
+  relationships:
+  - type: has_many
+    target: Post
+    via: post.tags (inverse)
+- name: User
+  collection: /wp/v2/users
+  count: 25
+  description: >-
+    An authoring profile — Heuritech analysts, fashion experts and data scientists credited on blog
+    content. Anonymous responses expose name, description, link, slug and avatar_urls only; email and
+    role require authentication.
+  key_fields: [id, name, slug, description, link, avatar_urls]
+  relationships:
+  - type: has_many
+    target: Post
+    via: post.author (inverse)
+- name: SearchResult
+  collection: /wp/v2/search
+  count: 232
+  description: >-
+    A lightweight projection over posts and pages for site search — id, title, url, type, subtype and
+    _links to the full resource.
+  relationships:
+  - type: belongs_to
+    target: Post
+    via: id + subtype
+  - type: belongs_to
+    target: Page
+    via: id + subtype
+extension_fields:
+  acf: >-
+    Every content entity carries an `acf` object (Advanced Custom Fields). It is present on live
+    responses but its registered field set is not described in the route index, so no schema for it is
+    asserted here.
+  yoast_head_json: SEO metadata block on posts and pages, emitted by the Yoast SEO plugin.
+  jetpack_*: Jetpack sharing/featured-media/VideoPress fields on posts and media.
+navigation:
+  hateoas: true
+  note: >-
+    Every resource carries a `_links` block (self, collection, about, author, replies, wp:featuredmedia,
+    wp:term, curies), so the graph above is traversable at runtime without out-of-band knowledge.
+not_modelled:
+- entity_group: Heuritech trend data (attributes, trends, geographies, forecast series, brands)
+  reason: >-
+    The commercial API is sales-gated. Heuritech's product page names the shapes in prose — "prints,
+    colors, fabrics, shapes", "weekly data points", "6 year historical data and 2 years forecast",
+    "1000+ trends" — but publishes no field names, types, identifiers or sample payloads. Nothing is
+    derived from marketing prose.
+x-evidence:
+  fetched: '2026-08-17'
+  probes:
+  - url: https://heuritech.com/wp-json/wp/v2/posts?per_page=1
+    status: 200
+  - url: https://heuritech.com/wp-json/wp/v2/comments?per_page=1
+    status: 200
+  - url: https://heuritech.com/wp-json/wp/v2/media?per_page=1
+    status: 200
+  - url: https://heuritech.com/wp-json/wp/v2/categories
+    status: 200

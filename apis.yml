@@ -1,24 +1,346 @@
 aid: heuritech
 name: Heuritech
-description: 'Heuritech is a company surfaced as a portfolio company of serena and added to the API Evangelist
-  network as a stub for enrichment. Sector: ai-data. This profile is a lead awaiting the enrichment pipeline.'
+description: >-
+  Heuritech is a Paris-based artificial-intelligence company (Heuritech SAS, RCS Paris B 794 196 055)
+  founded in 2013 by two machine-learning PhDs, and since December 2024 part of the Luxurynsight group.
+  It applies computer vision and deep-learning demand forecasting to roughly one million social-media
+  posts a day from Instagram, Weibo and TikTok, recognising more than 2,000 fashion attributes — prints,
+  colours, fabrics, shapes and product details — to quantify and predict consumer demand for apparel,
+  footwear and luxury brands up to a year ahead. The product is sold as a SaaS platform and, on the
+  Business and Enterprise plans, as a data API delivering weekly data points per product attribute with
+  up to six years of history and two years of forecast for injection into a customer's own planning
+  models. That commercial API is entirely sales-gated: Heuritech publishes no developer portal, no API
+  reference, no base URL and no machine-readable specification for it, and access begins with a demo
+  request. The only machine-readable surface a member of the public can reach on heuritech.com is the
+  WordPress REST API (wp/v2) that serves the company blog, marketing pages, media library, comments,
+  editorial taxonomy and site search as JSON, alongside a live but OAuth-gated WordPress MCP server
+  advertised through RFC 8414 and RFC 9728 discovery metadata.
+image: https://heuritech.com/wp-content/uploads/2020/06/20200526_image_partage.jpg
 url: https://raw.githubusercontent.com/api-evangelist/heuritech/refs/heads/main/apis.yml
 x-type: company
 x-source: serena-portfolio
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profiled
+x-tier-reason: enrichment-pipeline
 specificationVersion: '0.20'
 created: '2026-08-17'
 modified: '2026-08-17'
 tags:
 - Company
-- Ai Data
-apis: []
+- Artificial Intelligence
+- Computer Vision
+- Machine Learning
+- Fashion
+- Trend Forecasting
+- Demand Forecasting
+- Retail
+- Luxury
+- Market Intelligence
+- Consumer Insights
+- Social Media Analytics
+- Content
+apis:
+- aid: heuritech:heuritech-trend-data-api
+  name: Heuritech Trend Data API
+  description: >-
+    The commercial Heuritech data API, sold as part of the Business and Enterprise plans. Heuritech's own
+    product page describes it as "weekly data points on each of our product attributes (prints, colors,
+    fabrics, shapes) with up to 6 year historical data and 2 years forecast" and "full access to Heuritech
+    unique insights" across 1,000+ trends, so a customer can "inject directly Heuritech market data in your
+    own forecasting model". No public developer portal, API reference, base URL, authentication description,
+    OpenAPI/AsyncAPI/GraphQL definition or SDK was found for it on any Heuritech host. Access starts with a
+    sales demo, so the contract is recorded here as sales-gated rather than guessed at.
+  humanURL: https://heuritech.com/heuritech-market-insights/
+  tags:
+  - Trend Forecasting
+  - Fashion
+  - Data
+  properties:
+  - type: Pricing
+    url: https://heuritech.com/pricing/
+  - type: Plans
+    url: plans/heuritech-plans-pricing.yml
+  - type: SignUp
+    url: https://heuritech.com/get-a-demo/
+  x-evidence:
+    product_page: https://heuritech.com/heuritech-market-insights/
+    http_status: 200
+    fetched: '2026-08-17'
+    base_url_note: >-
+      Heuritech publishes no base URL for the trend data API. api.heuritech.com resolves and returns HTTP
+      200, but the body is the customer web application's HTML shell (base href https://www.heuritech.com),
+      and every REST/spec discovery path under it returns nginx 404. Recorded without a baseURL rather than
+      guessed from the domain.
+    spec_probes:
+    - url: https://api.heuritech.com/openapi.json
+      status: 404
+    - url: https://api.heuritech.com/swagger.json
+      status: 404
+    - url: https://api.heuritech.com/docs
+      status: 404
+    - url: https://api.heuritech.com/graphql
+      status: 404
+- aid: heuritech:heuritech-mcp-server
+  name: Heuritech MCP Server
+  description: >-
+    A live remote Model Context Protocol server on the heuritech.com host, advertised through RFC 8414
+    OAuth authorization-server metadata and RFC 9728 protected-resource metadata. It is the WordPress MCP
+    server that fronts the Heuritech content estate — the marketing site and blog — not the Heuritech trend
+    data product. Authorization is OAuth 2.1 authorization-code with PKCE (S256), a single `mcp` scope,
+    public clients (token_endpoint_auth_method none) and client-ID metadata documents. An anonymous JSON-RPC
+    tools/list returns HTTP 401 mcp_unauthorized with a WWW-Authenticate challenge pointing at the
+    protected-resource document, so the live tool schemas require an authorized session.
+  humanURL: https://heuritech.com/wp-json/mcp
+  baseURL: https://heuritech.com/wp-json/mcp/mcp-oauth-server
+  tags:
+  - MCP
+  - Agents
+  - Content
+  properties:
+  - type: MCPServer
+    url: mcp/heuritech-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/heuritech-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/heuritech-scopes.yml
+  x-evidence:
+    protected_resource: https://heuritech.com/.well-known/oauth-protected-resource
+    authorization_server: https://heuritech.com/.well-known/oauth-authorization-server
+    http_status: 200
+    tools_list_status: 401
+    fetched: '2026-08-17'
+- aid: heuritech:heuritech-posts-api
+  name: Heuritech Posts API
+  description: >-
+    The Heuritech editorial blog over the WordPress REST API — 169 published posts on fashion trend
+    forecasting, AI, market insight and retail data, anonymously readable as JSON. Derived by API Evangelist
+    from the live route-discovery document; not published by Heuritech.
+  humanURL: https://heuritech.com/blog/
+  baseURL: https://heuritech.com/wp-json/wp/v2
+  tags:
+  - Posts
+  - Content
+  properties:
+  - type: OpenAPI
+    url: openapi/heuritech-posts-api-openapi.yml
+  - type: DataModel
+    url: data-model/heuritech-data-model.yml
+  - type: ErrorCatalog
+    url: errors/heuritech-problem-types.yml
+- aid: heuritech:heuritech-pages-api
+  name: Heuritech Pages API
+  description: >-
+    The 63 published marketing, product, pricing, FAQ and legal pages that make up heuritech.com, served as
+    JSON by the WordPress REST API. Derived by API Evangelist from the live route-discovery document.
+  humanURL: https://heuritech.com/
+  baseURL: https://heuritech.com/wp-json/wp/v2
+  tags:
+  - Pages
+  - Content
+  properties:
+  - type: OpenAPI
+    url: openapi/heuritech-pages-api-openapi.yml
+  - type: DataModel
+    url: data-model/heuritech-data-model.yml
+  - type: ErrorCatalog
+    url: errors/heuritech-problem-types.yml
+- aid: heuritech:heuritech-media-api
+  name: Heuritech Media API
+  description: >-
+    The 3,800-item Heuritech media library — trend imagery, report covers, charts and downloadable assets —
+    with rendition URLs and metadata, served as JSON by the WordPress REST API.
+  humanURL: https://heuritech.com/
+  baseURL: https://heuritech.com/wp-json/wp/v2
+  tags:
+  - Media
+  - Content
+  properties:
+  - type: OpenAPI
+    url: openapi/heuritech-media-api-openapi.yml
+  - type: DataModel
+    url: data-model/heuritech-data-model.yml
+  - type: ErrorCatalog
+    url: errors/heuritech-problem-types.yml
+- aid: heuritech:heuritech-comments-api
+  name: Heuritech Comments API
+  description: >-
+    The 1,284 reader comments attached to Heuritech blog posts, anonymously readable as JSON by post,
+    author or date range.
+  humanURL: https://heuritech.com/blog/
+  baseURL: https://heuritech.com/wp-json/wp/v2
+  tags:
+  - Comments
+  - Content
+  properties:
+  - type: OpenAPI
+    url: openapi/heuritech-comments-api-openapi.yml
+  - type: DataModel
+    url: data-model/heuritech-data-model.yml
+  - type: ErrorCatalog
+    url: errors/heuritech-problem-types.yml
+- aid: heuritech:heuritech-taxonomy-api
+  name: Heuritech Taxonomy API
+  description: >-
+    The five editorial categories Heuritech uses to classify its blog content, plus the (currently empty)
+    tag taxonomy, served as JSON by the WordPress REST API.
+  humanURL: https://heuritech.com/blog/
+  baseURL: https://heuritech.com/wp-json/wp/v2
+  tags:
+  - Taxonomy
+  - Content
+  properties:
+  - type: OpenAPI
+    url: openapi/heuritech-taxonomy-api-openapi.yml
+  - type: DataModel
+    url: data-model/heuritech-data-model.yml
+  - type: ErrorCatalog
+    url: errors/heuritech-problem-types.yml
+- aid: heuritech:heuritech-users-api
+  name: Heuritech Users API
+  description: >-
+    The 25 authoring profiles behind Heuritech blog content — analysts, fashion experts and data scientists
+    — with names, biographies and avatars, served as JSON by the WordPress REST API.
+  humanURL: https://heuritech.com/blog/
+  baseURL: https://heuritech.com/wp-json/wp/v2
+  tags:
+  - Users
+  - Content
+  properties:
+  - type: OpenAPI
+    url: openapi/heuritech-users-api-openapi.yml
+  - type: DataModel
+    url: data-model/heuritech-data-model.yml
+  - type: ErrorCatalog
+    url: errors/heuritech-problem-types.yml
+- aid: heuritech:heuritech-search-api
+  name: Heuritech Search API
+  description: >-
+    Site-wide search across the 232 indexed posts and pages on heuritech.com, returning id, title, url,
+    type and subtype for each hit.
+  humanURL: https://heuritech.com/
+  baseURL: https://heuritech.com/wp-json/wp/v2
+  tags:
+  - Search
+  - Content
+  properties:
+  - type: OpenAPI
+    url: openapi/heuritech-search-api-openapi.yml
+  - type: DataModel
+    url: data-model/heuritech-data-model.yml
+  - type: ErrorCatalog
+    url: errors/heuritech-problem-types.yml
+- aid: heuritech:heuritech-discovery-api
+  name: Heuritech Discovery API
+  description: >-
+    The WordPress metadata routes describing which post types, taxonomies and post statuses heuritech.com
+    exposes — the self-description layer an agent reads before querying the content collections.
+  humanURL: https://heuritech.com/wp-json/
+  baseURL: https://heuritech.com/wp-json/wp/v2
+  tags:
+  - Discovery
+  - Content
+  properties:
+  - type: OpenAPI
+    url: openapi/heuritech-discovery-api-openapi.yml
+  - type: DataModel
+    url: data-model/heuritech-data-model.yml
+  - type: ErrorCatalog
+    url: errors/heuritech-problem-types.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: AgenticAccess
+  url: agentic-access/heuritech-agentic-access.yml
 - type: Website
-  url: http://heuritech.com/
+  url: https://heuritech.com/
+- type: About
+  url: https://heuritech.com/company-about-us/
+- type: ParentCompany
+  url: https://heuritech.com/luxurynsight-group/
+- type: Blog
+  url: https://heuritech.com/blog/
+- type: BlogRSS
+  url: https://heuritech.com/feed/
+- type: Press
+  url: https://heuritech.com/press/
+- type: FAQ
+  url: https://heuritech.com/faq/
+- type: Pricing
+  url: https://heuritech.com/pricing/
+- type: SignUp
+  url: https://heuritech.com/get-a-demo/
+- type: Login
+  url: https://market-trends.heuritech.com/
+- type: TermsOfService
+  url: https://heuritech.com/terms-conditions/
+- type: PrivacyPolicy
+  url: https://heuritech.com/privacy-policy/
+- type: Contact
+  url: mailto:contact@heuritech.com
+- type: GitHubOrganization
+  url: https://github.com/heuritech
+- type: Careers
+  url: https://www.welcometothejungle.com/en/companies/luxurynsight
+- type: Plans
+  url: plans/heuritech-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/heuritech-rate-limits.yml
+- type: MCPServer
+  url: mcp/heuritech-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/heuritech-tool-crosswalk.yml
+- type: WellKnown
+  url: well-known/heuritech-well-known.yml
+- type: Authentication
+  url: authentication/heuritech-authentication.yml
+- type: OAuthScopes
+  url: scopes/heuritech-scopes.yml
+- type: DomainSecurity
+  url: security/heuritech-domain-security.yml
+- type: Conventions
+  url: conventions/heuritech-conventions.yml
+- type: Conformance
+  url: conformance/heuritech-conformance.yml
+- type: ErrorCatalog
+  url: errors/heuritech-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/heuritech-lifecycle.yml
+- type: DataModel
+  url: data-model/heuritech-data-model.yml
+- type: Packages
+  url: packages/heuritech-packages.yml
+- type: LLMsTxt
+  url: llms/heuritech-llms.txt
+- type: Overlay
+  url: overlays/heuritech-content-overlay.yaml
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-08-17'
+  status: enriched
+  artifacts_added: 31
+  pass: local-v1
+x-coverage:
+  state: covered
+  reason: null
+  detail: >-
+    Contract discovery succeeded on the content estate and failed, correctly, on the product.
+    heuritech.com serves RFC 8414 and RFC 9728 OAuth metadata for a live remote MCP server at
+    /wp-json/mcp/mcp-oauth-server (tools/list gated at 401), and its WordPress REST route index
+    yielded 21 anonymously-readable content operations that were derived into OpenAPI. The
+    commercial Heuritech Trend Data API — a real product sold from 35k€/year — publishes no
+    developer portal, no reference, no base URL and no specification: docs.heuritech.com and
+    developer.heuritech.com do not exist, api.heuritech.com serves only the customer app shell,
+    and market-trends.heuritech.com is an SPA catch-all that answers 200 with HTML for every path.
+  evidence:
+  - url: https://heuritech.com/.well-known/oauth-protected-resource
+    status: 200
+  - url: https://heuritech.com/wp-json/
+    status: 200
+  - url: https://api.heuritech.com/openapi.json
+    status: 404
+  - url: https://developer.heuritech.com/
+    status: 404
+  checked: '2026-08-17'

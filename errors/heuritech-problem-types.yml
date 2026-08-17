@@ -1,0 +1,98 @@
+generated: '2026-08-17'
+method: derived
+source: openapi/heuritech-*-api-openapi.yml + live 4xx responses observed on https://heuritech.com/wp-json/wp/v2
+format: wordpress-rest
+rfc9457: false
+description: >-
+  The error catalog for the WordPress REST content API on heuritech.com. Heuritech publishes no error
+  reference of its own, so every entry below is either derived from the responses declared in the
+  derived OpenAPI documents or captured verbatim from a live 4xx observed during this pass. The
+  commercial Heuritech Trend Data API publishes no error contract at all and contributes nothing here.
+envelope:
+  content_type: application/json
+  fields:
+    code: machine-readable error slug
+    message: human-readable message
+    data.status: HTTP status code, repeated in the body
+    data.params: map of parameter name to validation message (400 only)
+    data.details: map of parameter name to {code, message} (400 only)
+problems:
+- status: 400
+  code: rest_invalid_param
+  title: Invalid parameter
+  detail: >-
+    One or more query parameters failed validation. data.params and data.details name each offending
+    parameter and the constraint it broke.
+  remediation: Correct the parameter against the schema in the derived OpenAPI and retry.
+  observed:
+    request: GET /wp/v2/posts?per_page=999
+    body: '{"code":"rest_invalid_param","message":"Invalid parameter(s): per_page","data":{"status":400,"params":{"per_page":"per_page
+      must be between 1 (inclusive) and 100 (inclusive)"}}}'
+  source_operations: [getPosts, getPages, getMedia, getComments, getCategories, getTags, getUsers, getSearch]
+- status: 401
+  code: rest_forbidden
+  title: Authentication required
+  detail: >-
+    The caller is not permitted to perform this operation anonymously. Returned by every write route,
+    by context=edit, and by the wp-abilities/v1 ability registry.
+  remediation: >-
+    Authenticate with a WordPress Application Password over HTTP Basic (authorize at
+    https://heuritech.com/wp-admin/authorize-application.php).
+  observed:
+    request: POST /wp-json/mcp/mcp-adapter-default-server
+    body: '{"code":"rest_forbidden","message":"Sorry, you are not allowed to do that.","data":{"status":401}}'
+- status: 401
+  code: mcp_unauthorized
+  title: MCP authentication required
+  detail: >-
+    Returned by the OAuth-protected MCP endpoint to an anonymous JSON-RPC call, with an RFC 9728
+    WWW-Authenticate challenge naming the protected-resource metadata document.
+  remediation: >-
+    Complete the OAuth 2.1 authorization-code + PKCE flow described in scopes/heuritech-scopes.yml and
+    present the bearer token in the Authorization header.
+  observed:
+    request: POST /wp-json/mcp/mcp-oauth-server tools/list
+    body: '{"code":"mcp_unauthorized","message":"MCP authentication required.","data":{"status":401}}'
+    www_authenticate: Bearer realm="https://heuritech.com", resource_metadata="https://heuritech.com/.well-known/oauth-protected-resource"
+- status: 401
+  code: rest_cannot_read
+  title: Collection not readable anonymously
+  detail: >-
+    The requested custom post type exists in the route index but its read capability is restricted.
+    Observed on the `knowledge` post type.
+  remediation: Authenticate, or use a collection that is anonymously readable.
+  observed:
+    request: GET /wp/v2/knowledge
+    body: '{"code":"rest_cannot_read","message":"Sorry, you are not allowed to view knowledge.","data":{"status":401}}'
+- status: 404
+  code: rest_post_invalid_id
+  title: Resource not found
+  detail: No post, page or media item exists with the supplied id.
+  remediation: List the collection first and use an id returned by it.
+  observed:
+    request: GET /wp/v2/posts/999999
+    body: '{"code":"rest_post_invalid_id","message":"Invalid post ID.","data":{"status":404}}'
+  source_operations: [getPostsId, getPagesId, getMediaId]
+- status: 404
+  code: rest_no_route
+  title: No route matched
+  detail: The requested path is not a registered route in any of the 24 WordPress REST namespaces.
+  remediation: Read https://heuritech.com/wp-json/ and use a registered route.
+notes:
+- >-
+  This is NOT an RFC 9457 problem+json surface. Responses are application/json with the WordPress
+  error envelope; there is no `type` URI, no `title`/`detail` split and no problem-type registry.
+- >-
+  Heuritech publishes no decline-code or numeric error registry — it is not a payments or
+  authorization provider — so errors/heuritech-decline-codes.yml is deliberately absent.
+x-evidence:
+  fetched: '2026-08-17'
+  probes:
+  - url: https://heuritech.com/wp-json/wp/v2/posts/999999
+    status: 404
+  - url: https://heuritech.com/wp-json/wp/v2/posts?per_page=999
+    status: 400
+  - url: https://heuritech.com/wp-json/wp/v2/knowledge
+    status: 401
+  - url: https://heuritech.com/wp-json/mcp/mcp-oauth-server
+    status: 401

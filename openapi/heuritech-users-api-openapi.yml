@@ -1,0 +1,296 @@
+openapi: 3.2.0
+info:
+  title: Heuritech Content API (WordPress REST wp/v2) Users API
+  version: wp/v2
+  summary: 'Public read surface of the heuritech.com content estate: blog posts, pages, media, comments, taxonomy,
+    authors and site search.'
+  description: 'Heuritech publishes heuritech.com on WordPress (WordPress.com Atomic + Jetpack), which exposes the
+    WordPress REST API at https://heuritech.com/wp-json/. The wp/v2 namespace is anonymously readable and returns
+    the company blog, marketing and legal pages, media library, reader comments, editorial taxonomy, author profiles
+    and a site-wide search endpoint as JSON.
+
+
+    This document was DERIVED mechanically by API Evangelist from the route-discovery document served at https://heuritech.com/wp-json/
+    on 2026-08-17 — every path, method and parameter below is taken verbatim from that descriptor. Heuritech publishes
+    no OpenAPI definition of its own, and this is NOT the Heuritech product API: the commercial Heuritech trend-data
+    API is sold on the Business and Enterprise plans and has no public documentation, base URL or specification.
+    Only GET operations are modelled here; the write operations WordPress registers on these same routes require
+    authentication (WordPress Application Passwords over HTTP Basic).'
+  contact:
+    name: Heuritech
+    url: https://heuritech.com/
+  x-derived-by: API Evangelist enrichment pipeline
+  x-derived-from: https://heuritech.com/wp-json/
+  x-derived-on: '2026-08-17'
+  x-provider-published: false
+servers:
+- url: https://heuritech.com/wp-json
+  description: Production
+tags:
+- name: Users
+  description: The 25 authoring profiles behind Heuritech blog content — analysts, fashion experts and data scientists.
+paths:
+  /wp/v2/users:
+    get:
+      operationId: getUsers
+      summary: GET /wp/v2/users
+      description: The 25 authoring profiles behind Heuritech blog content — analysts, fashion experts and data
+        scientists.
+      tags:
+      - Users
+      parameters:
+      - name: capabilities
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        description: Limit result set to users matching at least one specific capability provided. Accepts csv list
+          or single capability.
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      - name: exclude
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: integer
+        description: Ensure result set excludes specific IDs.
+      - name: has_published_posts
+        in: query
+        required: false
+        schema:
+          type: boolean
+        description: Limit result set to users who have published posts.
+      - name: include
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: integer
+        description: Limit result set to specific IDs.
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Offset the result set by a specific number of items.
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
+        description: Order sort attribute ascending or descending.
+      - name: orderby
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - include
+          - name
+          - registered_date
+          - slug
+          - include_slugs
+          - email
+          - url
+          default: name
+        description: Sort collection by user attribute.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+        description: Current page of the collection.
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 10
+          minimum: 1
+          maximum: 100
+        description: Maximum number of items to be returned in result set.
+      - name: roles
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        description: Limit result set to users matching at least one specific role provided. Accepts csv list or
+          single role.
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limit results to those matching a string.
+      - name: search_columns
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+            enum:
+            - email
+            - name
+            - id
+            - username
+            - slug
+        description: Array of column names to be searched.
+      - name: slug
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        description: Limit result set to users with one or more specific slugs.
+      - name: who
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - authors
+        description: Limit result set to users who are considered authors.
+      responses:
+        '200':
+          description: Success. Collection responses carry X-WP-Total and X-WP-TotalPages headers.
+          headers:
+            X-WP-Total:
+              description: Total number of items in the collection.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: 'Invalid parameter. WordPress error envelope: {code, message, data:{status}}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+        '401':
+          description: Authentication required for this context or resource (rest_forbidden / rest_cannot_read).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+        '404':
+          description: No route or resource matched the request (rest_no_route / rest_post_invalid_id).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+  /wp/v2/users/{id}:
+    get:
+      operationId: getUsersId
+      summary: GET /wp/v2/users/{id}
+      description: The 25 authoring profiles behind Heuritech blog content — analysts, fashion experts and data
+        scientists.
+      tags:
+      - Users
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: Unique identifier for the user.
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      responses:
+        '200':
+          description: Success. Collection responses carry X-WP-Total and X-WP-TotalPages headers.
+          headers:
+            X-WP-Total:
+              description: Total number of items in the collection.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: 'Invalid parameter. WordPress error envelope: {code, message, data:{status}}.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+        '401':
+          description: Authentication required for this context or resource (rest_forbidden / rest_cannot_read).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+        '404':
+          description: No route or resource matched the request (rest_no_route / rest_post_invalid_id).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+components:
+  schemas:
+    WPError:
+      type: object
+      description: The WordPress REST API error envelope returned on every 4xx/5xx.
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code, e.g. rest_no_route.
+        message:
+          type: string
+          description: Human-readable error message.
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+      required:
+      - code
+      - message
