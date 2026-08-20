@@ -27,6 +27,20 @@ modified: '2026-08-17'
 tags:
 - Company
 - Artificial Intelligence
+- Computer-Vision
+- Machine-Learning
+- Fashion
+- Trend Forecasting
+- Demand Forecasting
+- Retail
+- Luxury
+- Market Intelligence
+- Consumer Insights
+- Social Media Analytics
+- Content
+tags_raw:
+- Company
+- Artificial Intelligence
 - Computer Vision
 - Machine Learning
 - Fashion
@@ -202,6 +216,9 @@ apis:
   humanURL: https://heuritech.com/blog/
   baseURL: https://heuritech.com/wp-json/wp/v2
   tags:
+  - User
+  - Content
+  tags_raw:
   - Users
   - Content
   properties:
