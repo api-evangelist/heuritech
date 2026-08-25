@@ -1,0 +1,21 @@
+{
+  "repo": "heuritech",
+  "feeds": [
+    {
+      "source": "https://heuritech.com/luxurynsight-group/",
+      "feed_url": "https://heuritech.com/luxurynsight-group/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
+    },
+    {
+      "source": "https://heuritech.com/blog/",
+      "feed_url": "https://heuritech.com/blog/feed/",
+      "title": "",
+      "saved": 1,
+      "method": "discovered"
+    }
+  ],
+  "post_count": 1,
+  "fetched": "2026-08-22T20:20:02Z"
+}
