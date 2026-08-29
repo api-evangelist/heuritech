@@ -15,6 +15,18 @@ description: >-
   WordPress REST API (wp/v2) that serves the company blog, marketing pages, media library, comments,
   editorial taxonomy and site search as JSON, alongside a live but OAuth-gated WordPress MCP server
   advertised through RFC 8414 and RFC 9728 discovery metadata.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://heuritech.com/wp-content/uploads/2020/06/20200526_image_partage.jpg
 url: https://raw.githubusercontent.com/api-evangelist/heuritech/refs/heads/main/apis.yml
 x-type: company
