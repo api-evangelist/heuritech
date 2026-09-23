@@ -1,0 +1,32 @@
+{
+  "provider": "heuritech",
+  "sources": [
+    "heuritech-comments-api-openapi.yml",
+    "heuritech-discovery-api-openapi.yml",
+    "heuritech-media-api-openapi.yml",
+    "heuritech-pages-api-openapi.yml",
+    "heuritech-posts-api-openapi.yml",
+    "heuritech-search-api-openapi.yml",
+    "heuritech-taxonomy-api-openapi.yml",
+    "heuritech-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "heuritech-comments-api-openapi.yml",
+    "heuritech-discovery-api-openapi.yml",
+    "heuritech-media-api-openapi.yml",
+    "heuritech-pages-api-openapi.yml",
+    "heuritech-posts-api-openapi.yml",
+    "heuritech-search-api-openapi.yml",
+    "heuritech-taxonomy-api-openapi.yml",
+    "heuritech-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [
+    "no openapi/_original/ archive: this run re-split PREVIOUSLY REFINED output, so any base URL it carries is inherited from an earlier pass rather than read from a document the provider published"
+  ],
+  "notes": [
+    "apis.yml register: already-registered"
+  ],
+  "skipped": []
+}

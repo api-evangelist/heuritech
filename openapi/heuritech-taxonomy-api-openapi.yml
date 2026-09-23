@@ -2,20 +2,8 @@ openapi: 3.2.0
 info:
   title: Heuritech Content API (WordPress REST wp/v2) Taxonomy API
   version: wp/v2
-  summary: 'Public read surface of the heuritech.com content estate: blog posts, pages, media, comments, taxonomy,
-    authors and site search.'
-  description: 'Heuritech publishes heuritech.com on WordPress (WordPress.com Atomic + Jetpack), which exposes the
-    WordPress REST API at https://heuritech.com/wp-json/. The wp/v2 namespace is anonymously readable and returns
-    the company blog, marketing and legal pages, media library, reader comments, editorial taxonomy, author profiles
-    and a site-wide search endpoint as JSON.
-
-
-    This document was DERIVED mechanically by API Evangelist from the route-discovery document served at https://heuritech.com/wp-json/
-    on 2026-08-17 — every path, method and parameter below is taken verbatim from that descriptor. Heuritech publishes
-    no OpenAPI definition of its own, and this is NOT the Heuritech product API: the commercial Heuritech trend-data
-    API is sold on the Business and Enterprise plans and has no public documentation, base URL or specification.
-    Only GET operations are modelled here; the write operations WordPress registers on these same routes require
-    authentication (WordPress Application Passwords over HTTP Basic).'
+  summary: 'Public read surface of the heuritech.com content estate: blog posts, pages, media, comments, taxonomy, authors and site search.'
+  description: Heuritech publishes heuritech.com on WordPress (WordPress.com Atomic + Jetpack), which exposes the WordPress REST API at https://heuritech.com/wp-json/.
   contact:
     name: Heuritech
     url: https://heuritech.com/
@@ -28,15 +16,13 @@ servers:
   description: Production
 tags:
 - name: Taxonomy
-  description: The five editorial categories used to classify Heuritech blog content, plus the (currently empty)
-    tag taxonomy.
+  description: The five editorial categories used to classify Heuritech blog content, plus the (currently empty) tag taxonomy.
 paths:
   /wp/v2/categories:
     get:
       operationId: getCategories
       summary: GET /wp/v2/categories
-      description: The five editorial categories used to classify Heuritech blog content, plus the (currently empty)
-        tag taxonomy.
+      description: The five editorial categories used to classify Heuritech blog content, plus the (currently empty) tag taxonomy.
       tags:
       - Taxonomy
       parameters:
@@ -185,8 +171,7 @@ paths:
     get:
       operationId: getCategoriesId
       summary: GET /wp/v2/categories/{id}
-      description: The five editorial categories used to classify Heuritech blog content, plus the (currently empty)
-        tag taxonomy.
+      description: The five editorial categories used to classify Heuritech blog content, plus the (currently empty) tag taxonomy.
       tags:
       - Taxonomy
       parameters:
@@ -245,8 +230,7 @@ paths:
     get:
       operationId: getTags
       summary: GET /wp/v2/tags
-      description: The five editorial categories used to classify Heuritech blog content, plus the (currently empty)
-        tag taxonomy.
+      description: The five editorial categories used to classify Heuritech blog content, plus the (currently empty) tag taxonomy.
       tags:
       - Taxonomy
       parameters:
@@ -395,8 +379,7 @@ paths:
     get:
       operationId: getTagsId
       summary: GET /wp/v2/tags/{id}
-      description: The five editorial categories used to classify Heuritech blog content, plus the (currently empty)
-        tag taxonomy.
+      description: The five editorial categories used to classify Heuritech blog content, plus the (currently empty) tag taxonomy.
       tags:
       - Taxonomy
       parameters:
