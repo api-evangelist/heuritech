@@ -55,8 +55,8 @@ modified: '2026-08-17'
 tags:
 - Company
 - Artificial Intelligence
-- Computer-Vision
-- Machine-Learning
+- Computer Vision
+- Machine Learning
 - Fashion
 - Trend Forecasting
 - Demand Forecasting
@@ -65,7 +65,6 @@ tags:
 - Market Intelligence
 - Consumer Insights
 - Social Media Analytics
-- Content
 tags_raw:
 - Company
 - Artificial Intelligence
@@ -79,7 +78,8 @@ tags_raw:
 - Market Intelligence
 - Consumer Insights
 - Social Media Analytics
-- Content
+- Computer-Vision
+- Machine-Learning
 apis:
 - aid: heuritech:heuritech-trend-data-api
   name: Heuritech Trend Data API
@@ -150,146 +150,23 @@ apis:
     http_status: 200
     tools_list_status: 401
     fetched: '2026-08-17'
-- aid: heuritech:heuritech-posts-api
-  name: Heuritech Posts API
-  description: >-
-    The Heuritech editorial blog over the WordPress REST API — 169 published posts on fashion trend
-    forecasting, AI, market insight and retail data, anonymously readable as JSON. Derived by API Evangelist
-    from the live route-discovery document; not published by Heuritech.
-  humanURL: https://heuritech.com/blog/
-  baseURL: https://heuritech.com/wp-json/wp/v2
+  x-surface: platform-generated
+  x-platform: wordpress
+  x-platform-surface: mcp-plugin
+- aid: heuritech:heuritech-com-website-wordpress-rest
+  name: Heuritech Website (WordPress REST)
+  description: 'The public WordPress REST API (wp-json) of the Heuritech website at heuritech.com: the
+    route index of the site''s content management system, catalogued as one site surface rather than as
+    separate APIs.'
+  baseURL: https://heuritech.com/wp-json
   tags:
-  - Posts
-  - Content
+  - WordPress
+  x-surface: platform-generated
   properties:
-  - type: OpenAPI
-    url: openapi/heuritech-posts-api-openapi.yml
-  - type: DataModel
-    url: data-model/heuritech-data-model.yml
-  - type: ErrorCatalog
-    url: errors/heuritech-problem-types.yml
-- aid: heuritech:heuritech-pages-api
-  name: Heuritech Pages API
-  description: >-
-    The 63 published marketing, product, pricing, FAQ and legal pages that make up heuritech.com, served as
-    JSON by the WordPress REST API. Derived by API Evangelist from the live route-discovery document.
-  humanURL: https://heuritech.com/
-  baseURL: https://heuritech.com/wp-json/wp/v2
-  tags:
-  - Pages
-  - Content
-  properties:
-  - type: OpenAPI
-    url: openapi/heuritech-pages-api-openapi.yml
-  - type: DataModel
-    url: data-model/heuritech-data-model.yml
-  - type: ErrorCatalog
-    url: errors/heuritech-problem-types.yml
-- aid: heuritech:heuritech-media-api
-  name: Heuritech Media API
-  description: >-
-    The 3,800-item Heuritech media library — trend imagery, report covers, charts and downloadable assets —
-    with rendition URLs and metadata, served as JSON by the WordPress REST API.
-  humanURL: https://heuritech.com/
-  baseURL: https://heuritech.com/wp-json/wp/v2
-  tags:
-  - Media
-  - Content
-  properties:
-  - type: OpenAPI
-    url: openapi/heuritech-media-api-openapi.yml
-  - type: DataModel
-    url: data-model/heuritech-data-model.yml
-  - type: ErrorCatalog
-    url: errors/heuritech-problem-types.yml
-- aid: heuritech:heuritech-comments-api
-  name: Heuritech Comments API
-  description: >-
-    The 1,284 reader comments attached to Heuritech blog posts, anonymously readable as JSON by post,
-    author or date range.
-  humanURL: https://heuritech.com/blog/
-  baseURL: https://heuritech.com/wp-json/wp/v2
-  tags:
-  - Comments
-  - Content
-  properties:
-  - type: OpenAPI
-    url: openapi/heuritech-comments-api-openapi.yml
-  - type: DataModel
-    url: data-model/heuritech-data-model.yml
-  - type: ErrorCatalog
-    url: errors/heuritech-problem-types.yml
-- aid: heuritech:heuritech-taxonomy-api
-  name: Heuritech Taxonomy API
-  description: >-
-    The five editorial categories Heuritech uses to classify its blog content, plus the (currently empty)
-    tag taxonomy, served as JSON by the WordPress REST API.
-  humanURL: https://heuritech.com/blog/
-  baseURL: https://heuritech.com/wp-json/wp/v2
-  tags:
-  - Taxonomy
-  - Content
-  properties:
-  - type: OpenAPI
-    url: openapi/heuritech-taxonomy-api-openapi.yml
-  - type: DataModel
-    url: data-model/heuritech-data-model.yml
-  - type: ErrorCatalog
-    url: errors/heuritech-problem-types.yml
-- aid: heuritech:heuritech-users-api
-  name: Heuritech Users API
-  description: >-
-    The 25 authoring profiles behind Heuritech blog content — analysts, fashion experts and data scientists
-    — with names, biographies and avatars, served as JSON by the WordPress REST API.
-  humanURL: https://heuritech.com/blog/
-  baseURL: https://heuritech.com/wp-json/wp/v2
-  tags:
-  - User
-  - Content
-  tags_raw:
-  - Users
-  - Content
-  properties:
-  - type: OpenAPI
-    url: openapi/heuritech-users-api-openapi.yml
-  - type: DataModel
-    url: data-model/heuritech-data-model.yml
-  - type: ErrorCatalog
-    url: errors/heuritech-problem-types.yml
-- aid: heuritech:heuritech-search-api
-  name: Heuritech Search API
-  description: >-
-    Site-wide search across the 232 indexed posts and pages on heuritech.com, returning id, title, url,
-    type and subtype for each hit.
-  humanURL: https://heuritech.com/
-  baseURL: https://heuritech.com/wp-json/wp/v2
-  tags:
-  - Search
-  - Content
-  properties:
-  - type: OpenAPI
-    url: openapi/heuritech-search-api-openapi.yml
-  - type: DataModel
-    url: data-model/heuritech-data-model.yml
-  - type: ErrorCatalog
-    url: errors/heuritech-problem-types.yml
-- aid: heuritech:heuritech-discovery-api
-  name: Heuritech Discovery API
-  description: >-
-    The WordPress metadata routes describing which post types, taxonomies and post statuses heuritech.com
-    exposes — the self-description layer an agent reads before querying the content collections.
-  humanURL: https://heuritech.com/wp-json/
-  baseURL: https://heuritech.com/wp-json/wp/v2
-  tags:
-  - Discovery
-  - Content
-  properties:
-  - type: OpenAPI
-    url: openapi/heuritech-discovery-api-openapi.yml
-  - type: DataModel
-    url: data-model/heuritech-data-model.yml
-  - type: ErrorCatalog
-    url: errors/heuritech-problem-types.yml
+  - type: Documentation
+    url: https://heuritech.com/wp-json
+  x-platform: wordpress
+  x-platform-surface: rest
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -358,8 +235,6 @@ common:
   url: packages/heuritech-packages.yml
 - type: LLMsTxt
   url: llms/heuritech-llms.txt
-- type: Overlay
-  url: overlays/heuritech-content-overlay.yaml
 - type: AgentSkill
   url: skills/_index.yml
 x-enrichment:
@@ -389,3 +264,5 @@ x-coverage:
   - url: https://developer.heuritech.com/
     status: 404
   checked: '2026-08-17'
+x-tags-removed:
+- Content
