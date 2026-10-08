@@ -73,3 +73,29 @@ x-evidence:
     status: 200
   - url: https://heuritech.com/faq/
     status: 200
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - negotiated
+  - subscription
+  units: []
+  plans:
+  - name: Essential
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: Business
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: Enterprise
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
