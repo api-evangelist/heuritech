@@ -64,6 +64,124 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Heuritech is a company surfaced as a portfolio company of serena and added to the API Evangelist network as a stub for enrichment. Sector: ai-data. This profile is a lead awaiting the enrichment pipeline.
+Heuritech is a Paris-based artificial-intelligence company (Heuritech SAS, RCS Paris B 794 196 055) founded in 2013 by two machine-learning PhDs, and since December 2024 part of the Luxurynsight group. It applies computer vision and deep-learning demand forecasting to roughly one million social-media posts a day from Instagram, Weibo and TikTok, recognising more than 2,000 fashion attributes — prints, colours, fabrics, shapes and product details — to quantify and predict consumer demand for apparel, footwear and luxury brands up to a year ahead. The product is sold as a SaaS platform and, on the Business and Enterprise plans, as a data API delivering weekly data points per product attribute with up to six years of history and two years of forecast for injection into a customer's own planning models. That commercial API is entirely sales-gated: Heuritech publishes no developer portal, no API reference, no base URL and no machine-readable specification for it, and access begins with a demo request. The only machine-readable surface a member of the public can reach on heuritech.com is the WordPress REST API (wp/v2) that serves the company blog, marketing pages, media library, comments, editorial taxonomy and site search as JSON, alongside a live but OAuth-gated WordPress MCP server advertised through RFC 8414 and RFC 9728 discovery metadata.
 
-Source: portfolio company of [serena](https://github.com/api-evangelist/serena) — http://heuritech.com/
+**Areas:** Company · Artificial Intelligence · Computer Vision · Machine Learning · Fashion · Trend Forecasting · Demand Forecasting · Retail · Luxury · Market Intelligence · Consumer Insights · Social Media Analytics
+
+## Heuritech on APIs.io
+
+Everything profiled for Heuritech is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/heuritech/](https://apis.io/providers/heuritech/)** — or go straight to one of the APIs or properties below.
+
+### APIs (3)
+
+- [Heuritech Trend Data API](https://apis.io/apis/heuritech/heuritech-trend-data-api/) — The commercial Heuritech data API, sold as part of the Business and Enterprise plans. Heuritech's own product page describes it as "weekly data points on…
+- [Heuritech MCP Server](https://apis.io/apis/heuritech/heuritech-mcp-server/) — A live remote Model Context Protocol server on the heuritech.com host, advertised through RFC 8414 OAuth authorization-server metadata and RFC 9728…
+- [Heuritech Website (WordPress REST)](https://apis.io/apis/heuritech/heuritech-com-website-wordpress-rest/) — The public WordPress REST API (wp-json) of the Heuritech website at heuritech.com: the route index of the site's content management system, catalogued as…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [mcp-oauth-server](https://apis.io/servers/heuritech/mcp-oauth-server/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Heuritech Agentic Access](https://apis.io/agentic-access/heuritech/heuritech-agentic-access/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Heuritech Authentication](https://apis.io/security/heuritech/heuritech-authentication/)
+- [Heuritech Domain Security](https://apis.io/security/heuritech/heuritech-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Heuritech Scopes](https://apis.io/scopes/heuritech/heuritech-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Heuritech Plans Pricing](https://apis.io/plans/heuritech/heuritech-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Heuritech Rate Limits](https://apis.io/rate-limits/heuritech/heuritech-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://heuritech.com/)
+- [Pricing](https://heuritech.com/pricing/)
+- [Sign up](https://heuritech.com/get-a-demo/)
+- [Blog](https://heuritech.com/blog/)
+- [Terms of service](https://heuritech.com/terms-conditions/)
+- [Privacy policy](https://heuritech.com/privacy-policy/)
+- [GitHub](https://github.com/heuritech)
+
+## API Evangelist rating
+
+**Kin Score 28.2** — thin · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 57.5 |
+| Contract quality | 0.0 |
+| Contract governance | 4.5 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 25.6 |
+| Access clarity | 71.1 |
+
+**Agent readiness 22.5** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | platform (partial credit) |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 30.0** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/heuritech/](https://apis.io/providers/heuritech/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Heuritech: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/heuritech/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
